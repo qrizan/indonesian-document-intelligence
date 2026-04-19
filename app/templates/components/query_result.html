@@ -1,0 +1,66 @@
+<!-- AI bubble -->
+<div class="slide-up" style="display:flex;gap:10px;align-items:flex-start;animation-delay:.1s;">
+    <div style="width:28px;height:28px;min-width:28px;border-radius:50%;background:#4f46e5;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;">AI</div>
+    <div style="width:min(600px,88%);display:flex;flex-direction:column;gap:6px;">
+
+        <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-size:11px;color:#71717a;">Doc Assistant</span>
+            {% if trust.label == "found" %}
+                <span style="font-size:10px;background:#0d1f0d;color:#4ade80;border:1px solid #14532d;border-radius:4px;padding:1px 7px;">● {{ trust.source_count }} sumber</span>
+            {% elif trust.label == "conflict" %}
+                <span style="font-size:10px;background:#1f0a0a;color:#fca5a5;border:1px solid #7f1d1d;border-radius:4px;padding:1px 7px;">⚠ Konflik</span>
+            {% else %}
+                <span style="font-size:10px;background:#18181b;color:#71717a;border:1px solid #3f3f46;border-radius:4px;padding:1px 7px;">Tidak ditemukan</span>
+            {% endif %}
+        </div>
+
+        <!-- Answer -->
+        <div style="background:#1f1f23;border:1px solid #2e2e35;border-radius:12px;padding:12px 16px;font-size:13px;color:#d4d4d8;line-height:1.65;">
+            <div class="prose">{{ html_answer | safe }}</div>
+
+            {% if all_sources %}
+            <div style="margin-top:12px;padding-top:12px;border-top:1px solid #2e2e35;">
+
+                {% if has_conflict %}
+                <!-- Conflict warning banner -->
+                <div style="background:#170a0a;border:1px solid #7f1d1d;border-radius:8px;padding:10px 12px;margin-bottom:12px;display:flex;gap:8px;align-items:flex-start;">
+                    <span style="font-size:13px;line-height:1.3;flex-shrink:0;">⚠</span>
+                    <div>
+                        <p style="font-size:11px;color:#fca5a5;font-weight:600;margin-bottom:3px;">Konflik Data Terdeteksi</p>
+                        <p style="font-size:10px;color:#9f9fa8;line-height:1.55;">Dua sumber di bawah memberikan informasi yang bertentangan untuk pertanyaan yang sama. Jawaban di atas mungkin tidak akurat — periksa langsung kedua dokumen sebelum mengambil kesimpulan.</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                <p style="font-size:10px;color:#71717a;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Sumber</p>
+
+                <div style="display:flex;flex-direction:column;gap:6px;">
+                {% for s in all_sources %}
+                    <div x-data="{ open: {{ 'true' if s.default_open else 'false' }} }"
+                         style="border:1px solid {{ '#7f1d1d' if s.is_conflict_party else '#2e2e35' }};border-left:3px solid {{ '#ef4444' if s.is_conflict_party else '#2e2e35' }};border-radius:6px;overflow:hidden;background:{{ '#170a0a' if s.is_conflict_party else 'transparent' }};">
+                        <button @click="open = !open"
+                                style="width:100%;display:flex;justify-content:space-between;align-items:center;background:none;border:none;outline:none;cursor:pointer;padding:7px 10px;transition:background .12s;"
+                                onmouseover="this.style.background='#27272a'" onmouseout="this.style.background='transparent'">
+                            <div style="display:flex;align-items:center;gap:6px;">
+                                <svg style="width:10px;height:10px;color:{{ '#f87171' if s.is_conflict_party else '#52525b' }};flex-shrink:0;" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
+                                </svg>
+                                <span style="font-size:10px;color:{{ '#f87171' if s.is_conflict_party else '#818cf8' }};font-family:monospace;">{{ s.doc_id }}{% if s.section %} <span style="color:{{ '#f87171' if s.is_conflict_party else '#52525b' }};font-weight:400;">› {{ s.section }}</span>{% endif %}</span>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:6px;">
+                                <span style="font-size:10px;color:{{ '#fca5a5' if s.is_conflict_party else '#52525b' }};">{{ s.score_pct }}%</span>
+                                <span style="font-size:9px;color:{{ '#f87171' if s.is_conflict_party else '#52525b' }};" x-text="open ? '▴' : '▾'"></span>
+                            </div>
+                        </button>
+                        <div x-show="open" style="padding:0 10px 10px 10px;border-top:1px solid {{ '#3f1d1d' if s.is_conflict_party else '#27272a' }};">
+                            <p style="font-size:11px;color:#71717a;line-height:1.6;font-style:italic;margin-top:8px;white-space:pre-wrap;word-break:break-word;">{{ s.excerpt_html | safe }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
