@@ -89,6 +89,7 @@ Detail setiap tahap dan keputusan desain: [documentations/PIPELINE.md](documenta
 - **Bahasa campuran:** Pipeline dioptimalkan untuk Bahasa Indonesia. Dokumen dengan bahasa campuran Indonesia-Inggris bisa menghasilkan retrieval yang tidak optimal.
 - **Conflict detection terbatas:** Konflik hanya terdeteksi jika LLM mengenali kontradiksi yang jelas dalam konteks yang sama. Konflik tersirat atau konflik antar bagian dokumen yang berbeda bisa terlewat.
 - **Enrichment berbayar:** Setiap chunk yang diupload memanggil LLM untuk enrichment, sehingga upload banyak file berbiaya API lebih tinggi.
+- **Tidak ada conversation history:** Setiap pertanyaan diproses independen. Sistem tidak menyimpan konteks pertanyaan sebelumnya, sehingga follow-up atau pertanyaan lanjutan yang merujuk jawaban sebelumnya tidak didukung.
 - **Rate limiting in-memory:** Rate limit reset saat server restart, tidak persisten antar instance.
 - **Evaluasi RAGAS menggunakan data sintetis:** Query evaluasi dibuat dari model yang sama dengan model jawaban - ada risiko skor inflasi. Lihat catatan bias di [EVALUATION.md](documentations/EVALUATION.md).
 
