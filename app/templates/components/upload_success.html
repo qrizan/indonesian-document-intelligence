@@ -77,8 +77,8 @@
         <!-- Input Bar -->
         <div style="border-top:1px solid #2e2e35;padding:14px 24px;background:#1f1f23;"
              x-data="{ q: '', sending: false }"
-             @htmx:beforeRequest.window="if ($event.detail.elt.closest('#chat-form')) { sending = true; }"
-             @htmx:afterRequest.window="if ($event.detail.elt.closest('#chat-form')) { sending = false; q = ''; setTimeout(()=>{ const el=document.getElementById('chat-messages'); el.scrollTop=el.scrollHeight; }, 80); }">
+             @htmx:before-request.window="if ($event.detail.elt.closest('#chat-form')) { sending = true; }"
+             @htmx:after-request.window="if ($event.detail.elt.closest('#chat-form')) { sending = false; q = ''; setTimeout(()=>{ const el=document.getElementById('chat-messages'); el.scrollTop=el.scrollHeight; }, 80); }">
             <form id="chat-form"
                   hx-post="/web/query"
                   hx-target="#chat-messages"
