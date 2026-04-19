@@ -91,17 +91,12 @@
                        onfocus="this.style.borderColor='#6366f1'" onblur="this.style.borderColor='#2e2e35'"/>
                 <button type="submit"
                         :disabled="!q.trim() || sending"
-                        :style="sending
-                            ? 'background:#7c3aed;opacity:0.6;cursor:not-allowed;'
-                            : (!q.trim() ? 'background:#6366f1;opacity:0.4;cursor:not-allowed;' : 'background:#6366f1;cursor:pointer;')"
-                        style="color:white;border:none;outline:none;border-radius:10px;padding:9px 18px;font-size:13px;font-weight:500;transition:background .15s,opacity .15s;white-space:nowrap;display:flex;align-items:center;gap:6px;"
-                        onmouseover="if(!this.disabled) this.style.background='#4f46e5'"
-                        onmouseout="if(!this.disabled&&!this.closest('[x-data]').__x.$data.sending) this.style.background='#6366f1'">
-                    <svg x-show="sending" style="width:14px;height:14px;animation:spin 1s linear infinite;flex-shrink:0;" fill="none" viewBox="0 0 24 24">
+                        :style="`background:#6366f1;color:white;border:none;outline:none;border-radius:10px;padding:9px 18px;font-size:13px;font-weight:500;white-space:nowrap;display:flex;align-items:center;justify-content:center;min-width:56px;transition:opacity .15s;${(!q.trim()||sending)?'opacity:0.5;cursor:not-allowed;':'cursor:pointer;'}`">
+                    <svg x-show="sending" style="width:14px;height:14px;animation:spin 1s linear infinite;" fill="none" viewBox="0 0 24 24">
                         <circle style="opacity:0.25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
                         <path style="opacity:0.75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
                     </svg>
-                    <span x-text="sending ? 'Mengirim...' : 'Kirim'"></span>
+                    <span x-show="!sending">Kirim</span>
                 </button>
             </form>
         </div>
