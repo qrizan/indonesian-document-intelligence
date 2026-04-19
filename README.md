@@ -74,10 +74,7 @@ Detail setiap tahap dan keputusan desain: [documentations/PIPELINE.md](documenta
 - **Evidence trail** - setiap jawaban disertai referensi ke dokumen sumber dan skor relevansi
 - **Query normalization** - typo, singkatan, dan bahasa informal dinormalisasi sebelum retrieval
 - **Session isolation** - setiap sesi mendapat Pinecone namespace sendiri, dokumen antar sesi tidak bercampur
-
-**Format yang didukung:** `.txt`, `.pdf` (digital, bukan hasil scan), `.docx`
-
-**Bahasa:** Dirancang dan diuji untuk Bahasa Indonesia. Dokumen atau pertanyaan dalam bahasa lain belum diuji.
+- **Format yang didukung:** `.txt`, `.pdf` (digital, bukan hasil scan), `.docx`
 
 ---
 
@@ -86,7 +83,6 @@ Detail setiap tahap dan keputusan desain: [documentations/PIPELINE.md](documenta
 - **Dirancang untuk Bahasa Indonesia:** Seluruh pipeline - prompt enrichment, normalisasi query, generasi jawaban, dan model reranker - dikonfigurasi dan diuji untuk dokumen dan pertanyaan berbahasa Indonesia. Dokumen berbahasa lain belum diuji dan hasilnya tidak dapat dijamin.
 - **Sesi ephemeral:** Dokumen tidak tersimpan setelah server mati. Upload ulang diperlukan setiap sesi baru.
 - **PDF digital only:** Dokumen PDF hasil scan (image-based) tidak bisa dibaca. Tidak ada OCR.
-- **Bahasa campuran:** Pipeline dioptimalkan untuk Bahasa Indonesia. Dokumen dengan bahasa campuran Indonesia-Inggris bisa menghasilkan retrieval yang tidak optimal.
 - **Conflict detection terbatas:** Konflik hanya terdeteksi jika LLM mengenali kontradiksi yang jelas dalam konteks yang sama. Konflik tersirat atau konflik antar bagian dokumen yang berbeda bisa terlewat.
 - **Enrichment berbayar:** Setiap chunk yang diupload memanggil LLM untuk enrichment, sehingga upload banyak file berbiaya API lebih tinggi.
 - **Tidak ada conversation history:** Setiap pertanyaan diproses independen. Sistem tidak menyimpan konteks pertanyaan sebelumnya, sehingga follow-up atau pertanyaan lanjutan yang merujuk jawaban sebelumnya tidak didukung.
